@@ -2,10 +2,12 @@ package com.github.rakhmedovrs.spring5mvcrest.services;
 
 import com.github.rakhmedovrs.spring5mvcrest.api.v1.mapper.CustomerMapper;
 import com.github.rakhmedovrs.spring5mvcrest.api.v1.model.CustomerDTO;
+import com.github.rakhmedovrs.spring5mvcrest.domain.Customer;
 import com.github.rakhmedovrs.spring5mvcrest.repositories.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -27,10 +29,13 @@ public class CustomerServiceImpl implements CustomerService
 	@Override
 	public CustomerDTO getCustomerById(Long id)
 	{
-		return customerMapper.customerToCustomerDTO(
+		Customer customer =
 			customerRepository.findById(id)
-				.orElseThrow(() -> new IllegalArgumentException("Unable to find a Customer with id -" + id))
-		);
+				.orElseThrow(() -> new IllegalArgumentException("Unable to find a Customer with id -" + id));
+
+		customer.setCustomerUrl("/api/v1/customers/" + customer.getId());
+
+		return customerMapper.customerToCustomerDTO(customer);
 	}
 
 	@Override
@@ -40,6 +45,17 @@ public class CustomerServiceImpl implements CustomerService
 			.findAll()
 			.stream()
 			.map(customerMapper::customerToCustomerDTO)
+			.peek(customerDTO ->
+				customerDTO.setCustomerUrl("/api/v1/customers/" + customerDTO.getId()))
 			.collect(Collectors.toList());
+	}
+
+	@Override
+	public CustomerDTO createCustomer(CustomerDTO customerDTO)
+	{
+		Customer customer = customerMapper.customerDTOToCustomer(customerDTO);
+		Customer saved = customerRepository.save(customer);
+		saved.setCustomerUrl("/api/v1/customers/" + saved.getId());
+		return customerMapper.customerToCustomerDTO(saved);
 	}
 }

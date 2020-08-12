@@ -2,10 +2,7 @@ package com.github.rakhmedovrs.spring5mvcrest.domain;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * @author RakhmedovRS
@@ -20,5 +17,6 @@ public class Customer
 	Long id;
 	String firstName;
 	String lastName;
+	@Transient
 	String customerUrl;
 }

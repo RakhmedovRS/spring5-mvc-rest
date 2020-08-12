@@ -1,9 +1,6 @@
 package com.github.rakhmedovrs.spring5mvcrest.controllers.v1;
 
-import com.github.rakhmedovrs.spring5mvcrest.api.v1.model.CategoryDTO;
 import com.github.rakhmedovrs.spring5mvcrest.api.v1.model.CustomerDTO;
-import com.github.rakhmedovrs.spring5mvcrest.domain.Customer;
-import com.github.rakhmedovrs.spring5mvcrest.services.CategoryService;
 import com.github.rakhmedovrs.spring5mvcrest.services.CustomerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,11 +14,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.github.rakhmedovrs.spring5mvcrest.controllers.v1.AbstractRestControllerTest.asJsonString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -95,5 +94,29 @@ class CustomerControllerTest
 			.andExpect(jsonPath("$.firstName", equalTo(joe.getFirstName())))
 			.andExpect(jsonPath("$.lastName", equalTo(joe.getLastName())))
 			.andExpect(jsonPath("$.customerUrl", equalTo(joe.getCustomerUrl())));
+	}
+
+	@Test
+	public void createNewCustomer() throws Exception {
+		//given
+		CustomerDTO customer = new CustomerDTO();
+		customer.setFirstName("Fred");
+		customer.setLastName("Flintstone");
+
+		CustomerDTO returnDTO = new CustomerDTO();
+		returnDTO.setFirstName(customer.getFirstName());
+		returnDTO.setLastName(customer.getLastName());
+		returnDTO.setCustomerUrl("/api/v1/customers/1");
+
+		when(customerService.createCustomer(customer)).thenReturn(returnDTO);
+
+		//when/then
+		mockMvc.perform(post("/api/v1/customers/")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content(asJsonString(customer)))
+			.andExpect(status().isCreated())
+			.andExpect(jsonPath("$.firstName", equalTo(customer.getFirstName())))
+			.andExpect(jsonPath("$.lastName", equalTo(customer.getLastName())))
+			.andExpect(jsonPath("$.customerUrl", equalTo("/api/v1/customers/1")));
 	}
 }
