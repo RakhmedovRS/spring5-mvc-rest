@@ -1,7 +1,9 @@
 package com.github.rakhmedovrs.spring5mvcrest.bootstrap;
 
 import com.github.rakhmedovrs.spring5mvcrest.domain.Category;
+import com.github.rakhmedovrs.spring5mvcrest.domain.Customer;
 import com.github.rakhmedovrs.spring5mvcrest.repositories.CategoryRepository;
+import com.github.rakhmedovrs.spring5mvcrest.repositories.CustomerRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -13,10 +15,12 @@ import org.springframework.stereotype.Component;
 public class Bootstrap implements CommandLineRunner
 {
 	private final CategoryRepository categoryRepository;
+	private final CustomerRepository customerRepository;
 
-	public Bootstrap(CategoryRepository categoryRepository)
+	public Bootstrap(CategoryRepository categoryRepository, CustomerRepository customerRepository)
 	{
 		this.categoryRepository = categoryRepository;
+		this.customerRepository = customerRepository;
 	}
 
 	@Override
@@ -44,5 +48,29 @@ public class Bootstrap implements CommandLineRunner
 		categoryRepository.save(nuts);
 
 		System.out.println("Categories loaded -> " + categoryRepository.count());
+
+		Customer joe = new Customer();
+		joe.setId(1L);
+		joe.setFirstName("Joe");
+		joe.setLastName("Newman");
+		joe.setCustomerUrl("/api/v1/customers" + joe.getId());
+
+		Customer jesse = new Customer();
+		jesse.setId(2L);
+		jesse.setFirstName("Jesse");
+		jesse.setLastName("Pinkman");
+		jesse.setCustomerUrl("/api/v1/customers" + jesse.getId());
+
+		Customer walter = new Customer();
+		walter.setId(3L);
+		walter.setFirstName("Walter");
+		walter.setLastName("White");
+		walter.setCustomerUrl("/api/v1/customers" + walter.getId());
+
+		customerRepository.save(joe);
+		customerRepository.save(jesse);
+		customerRepository.save(walter);
+
+		System.out.println("Customers loaded -> " + customerRepository.count());
 	}
 }
