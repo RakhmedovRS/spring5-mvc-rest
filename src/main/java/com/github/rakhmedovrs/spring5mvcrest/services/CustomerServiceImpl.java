@@ -7,7 +7,6 @@ import com.github.rakhmedovrs.spring5mvcrest.repositories.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -62,6 +61,20 @@ public class CustomerServiceImpl implements CustomerService
 		Customer customer = customerMapper.customerDTOToCustomer(customerDTO);
 		customer.setId(id);
 		return saveAndReturn(customerDTO);
+	}
+
+	@Override
+	public CustomerDTO patchCustomer(Long id, CustomerDTO customerDTO)
+	{
+		return customerRepository
+			.findById(id)
+			.map(customer ->
+			{
+				customer.setFirstName(customerDTO.getFirstName() == null ? customer.getFirstName() : customerDTO.getFirstName());
+				customer.setLastName(customerDTO.getLastName() == null ? customer.getLastName() : customerDTO.getLastName());
+				return customerMapper.customerToCustomerDTO(customer);
+			})
+			.orElseThrow(RuntimeException::new);
 	}
 
 	private CustomerDTO saveAndReturn(CustomerDTO customerDTO)
