@@ -2,6 +2,7 @@ package com.github.rakhmedovrs.spring5mvcrest.services;
 
 import com.github.rakhmedovrs.spring5mvcrest.api.v1.mapper.CustomerMapper;
 import com.github.rakhmedovrs.spring5mvcrest.api.v1.model.CustomerDTO;
+import com.github.rakhmedovrs.spring5mvcrest.controllers.v1.CustomerController;
 import com.github.rakhmedovrs.spring5mvcrest.domain.Customer;
 import com.github.rakhmedovrs.spring5mvcrest.repositories.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +28,7 @@ class CustomerServiceTest
 	public static final long ID = 1L;
 	public static final String FIRST_NAME = "Ivan";
 	public static final String LAST_NAME = "Ivanov";
-	public static final String CUSTOMER_URL = "/api/v1/customers/1";
+	public static final String CUSTOMER_URL = CustomerController.BASE_URL + "/" + "1";
 	CustomerService customerService;
 
 	@Mock
@@ -95,7 +96,7 @@ class CustomerServiceTest
 		CustomerDTO savedDTO = customerService.createCustomer(customerDTO);
 
 		assertEquals(customerDTO.getFirstName(), savedDTO.getFirstName());
-		assertEquals("/api/v1/customers/1", savedDTO.getCustomerUrl());
+		assertEquals(CustomerController.BASE_URL + "/" + "1", savedDTO.getCustomerUrl());
 	}
 
 	@Test
@@ -115,7 +116,7 @@ class CustomerServiceTest
 		CustomerDTO savedDTO = customerService.saveCustomerByDTO(1L, customerDTO);
 
 		assertEquals(customerDTO.getFirstName(), savedDTO.getFirstName());
-		assertEquals("/api/v1/customers/1", savedDTO.getCustomerUrl());
+		assertEquals(CustomerController.BASE_URL + "/" + "1", savedDTO.getCustomerUrl());
 	}
 
 	@Test

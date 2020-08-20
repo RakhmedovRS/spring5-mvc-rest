@@ -2,6 +2,7 @@ package com.github.rakhmedovrs.spring5mvcrest.services;
 
 import com.github.rakhmedovrs.spring5mvcrest.api.v1.mapper.CustomerMapper;
 import com.github.rakhmedovrs.spring5mvcrest.api.v1.model.CustomerDTO;
+import com.github.rakhmedovrs.spring5mvcrest.controllers.v1.CustomerController;
 import com.github.rakhmedovrs.spring5mvcrest.domain.Customer;
 import com.github.rakhmedovrs.spring5mvcrest.repositories.CustomerRepository;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,7 @@ public class CustomerServiceImpl implements CustomerService
 			customerRepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Unable to find a Customer with id -" + id));
 
-		customer.setCustomerUrl("/api/v1/customers/" + customer.getId());
+		customer.setCustomerUrl(CustomerController.BASE_URL + "/" + customer.getId());
 
 		return customerMapper.customerToCustomerDTO(customer);
 	}
@@ -45,7 +46,7 @@ public class CustomerServiceImpl implements CustomerService
 			.stream()
 			.map(customerMapper::customerToCustomerDTO)
 			.peek(customerDTO ->
-				customerDTO.setCustomerUrl("/api/v1/customers/" + customerDTO.getId()))
+				customerDTO.setCustomerUrl(CustomerController.BASE_URL + "/" + customerDTO.getId()))
 			.collect(Collectors.toList());
 	}
 
@@ -72,7 +73,7 @@ public class CustomerServiceImpl implements CustomerService
 			{
 				customer.setFirstName(customerDTO.getFirstName() == null ? customer.getFirstName() : customerDTO.getFirstName());
 				customer.setLastName(customerDTO.getLastName() == null ? customer.getLastName() : customerDTO.getLastName());
-				customer.setCustomerUrl("/api/v1/customers/" + id);
+				customer.setCustomerUrl(CustomerController.BASE_URL + "/" + + id);
 				return customerMapper.customerToCustomerDTO(customer);
 			})
 			.orElseThrow(RuntimeException::new);
@@ -88,7 +89,7 @@ public class CustomerServiceImpl implements CustomerService
 	{
 		Customer customer = customerMapper.customerDTOToCustomer(customerDTO);
 		Customer saved = customerRepository.save(customer);
-		saved.setCustomerUrl("/api/v1/customers/" + saved.getId());
+		saved.setCustomerUrl(CustomerController.BASE_URL + "/" + + saved.getId());
 		return customerMapper.customerToCustomerDTO(saved);
 	}
 }
