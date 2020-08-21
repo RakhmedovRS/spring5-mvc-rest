@@ -2,6 +2,7 @@ package com.github.rakhmedovrs.spring5mvcrest.controllers.v1;
 
 import com.github.rakhmedovrs.spring5mvcrest.api.v1.model.CustomerDTO;
 import com.github.rakhmedovrs.spring5mvcrest.services.CustomerService;
+import com.github.rakhmedovrs.spring5mvcrest.services.ResourceNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,8 +18,7 @@ import java.util.List;
 import static com.github.rakhmedovrs.spring5mvcrest.controllers.v1.AbstractRestControllerTest.asJsonString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -43,7 +43,9 @@ class CustomerControllerTest
 	public void setUp() throws Exception
 	{
 		MockitoAnnotations.initMocks(this);
-		mockMvc = MockMvcBuilders.standaloneSetup(customerController).build();
+		mockMvc = MockMvcBuilders.standaloneSetup(customerController)
+			.setControllerAdvice(new RestResponseEntityExceptionHandler())
+			.build();
 	}
 
 	@Test
@@ -179,5 +181,15 @@ class CustomerControllerTest
 			.andExpect(status().isOk());
 
 		verify(customerService).deleteCustomerById(anyLong());
+	}
+
+	@Test
+	public void testGetByNameNotFound() throws Exception
+	{
+		when(customerService.getCustomerById(anyLong())).thenThrow(ResourceNotFoundException.class);
+
+		mockMvc.perform(get(CustomerController.BASE_URL + "/222")
+			.contentType(MediaType.APPLICATION_JSON))
+			.andExpect(status().isNotFound());
 	}
 }
