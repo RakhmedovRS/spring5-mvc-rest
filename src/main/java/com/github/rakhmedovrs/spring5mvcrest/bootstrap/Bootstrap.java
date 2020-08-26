@@ -2,8 +2,10 @@ package com.github.rakhmedovrs.spring5mvcrest.bootstrap;
 
 import com.github.rakhmedovrs.spring5mvcrest.domain.Category;
 import com.github.rakhmedovrs.spring5mvcrest.domain.Customer;
+import com.github.rakhmedovrs.spring5mvcrest.domain.Product;
 import com.github.rakhmedovrs.spring5mvcrest.repositories.CategoryRepository;
 import com.github.rakhmedovrs.spring5mvcrest.repositories.CustomerRepository;
+import com.github.rakhmedovrs.spring5mvcrest.repositories.ProductRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -16,11 +18,13 @@ public class Bootstrap implements CommandLineRunner
 {
 	private final CategoryRepository categoryRepository;
 	private final CustomerRepository customerRepository;
+	private final ProductRepository productRepository;
 
-	public Bootstrap(CategoryRepository categoryRepository, CustomerRepository customerRepository)
+	public Bootstrap(CategoryRepository categoryRepository, CustomerRepository customerRepository, ProductRepository productRepository)
 	{
 		this.categoryRepository = categoryRepository;
 		this.customerRepository = customerRepository;
+		this.productRepository = productRepository;
 	}
 
 	@Override
@@ -72,5 +76,28 @@ public class Bootstrap implements CommandLineRunner
 		customerRepository.save(walter);
 
 		System.out.println("Customers loaded -> " + customerRepository.count());
+
+		Product apples = new Product();
+		apples.setName("Apples");
+		apples.setPrice(5D);
+
+		Product oranges = new Product();
+		oranges.setName("Oranges");
+		oranges.setPrice(4D);
+
+		Product limes = new Product();
+		limes.setName("Limes");
+		limes.setPrice(7D);
+
+		Product bananas = new Product();
+		bananas.setName("Bananas");
+		bananas.setPrice(2D);
+
+		productRepository.save(apples);
+		productRepository.save(oranges);
+		productRepository.save(limes);
+		productRepository.save(bananas);
+
+		System.out.println("Products loaded -> " + productRepository.count());
 	}
 }
