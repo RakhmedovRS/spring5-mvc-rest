@@ -3,9 +3,11 @@ package com.github.rakhmedovrs.spring5mvcrest.bootstrap;
 import com.github.rakhmedovrs.spring5mvcrest.domain.Category;
 import com.github.rakhmedovrs.spring5mvcrest.domain.Customer;
 import com.github.rakhmedovrs.spring5mvcrest.domain.Product;
+import com.github.rakhmedovrs.spring5mvcrest.domain.Vendor;
 import com.github.rakhmedovrs.spring5mvcrest.repositories.CategoryRepository;
 import com.github.rakhmedovrs.spring5mvcrest.repositories.CustomerRepository;
 import com.github.rakhmedovrs.spring5mvcrest.repositories.ProductRepository;
+import com.github.rakhmedovrs.spring5mvcrest.repositories.VendorRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -19,12 +21,14 @@ public class Bootstrap implements CommandLineRunner
 	private final CategoryRepository categoryRepository;
 	private final CustomerRepository customerRepository;
 	private final ProductRepository productRepository;
+	private final VendorRepository vendorRepository;
 
-	public Bootstrap(CategoryRepository categoryRepository, CustomerRepository customerRepository, ProductRepository productRepository)
+	public Bootstrap(CategoryRepository categoryRepository, CustomerRepository customerRepository, ProductRepository productRepository, VendorRepository vendorRepository)
 	{
 		this.categoryRepository = categoryRepository;
 		this.customerRepository = customerRepository;
 		this.productRepository = productRepository;
+		this.vendorRepository = vendorRepository;
 	}
 
 	@Override
@@ -99,5 +103,14 @@ public class Bootstrap implements CommandLineRunner
 		productRepository.save(bananas);
 
 		System.out.println("Products loaded -> " + productRepository.count());
+
+		Vendor vendor1 = new Vendor();
+		vendor1.setName("Vendor 1");
+		vendorRepository.save(vendor1);
+
+		Vendor vendor2 = new Vendor();
+		vendor2.setName("Vendor 2");
+		vendorRepository.save(vendor2);
+		System.out.println("Vendors loaded -> " + vendorRepository.count());
 	}
 }
