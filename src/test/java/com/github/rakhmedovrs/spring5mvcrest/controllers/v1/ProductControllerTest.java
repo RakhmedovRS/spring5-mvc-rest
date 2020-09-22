@@ -73,6 +73,7 @@ class ProductControllerTest
 		when(productService.getAllProducts()).thenReturn(productDTOS);
 
 		mockMvc.perform(get(ProductController.BASE_URL)
+			.accept(MediaType.APPLICATION_JSON)
 			.contentType(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.products", hasSize(4)));
@@ -89,6 +90,7 @@ class ProductControllerTest
 		when(productService.getProductById(anyLong())).thenReturn(apples);
 
 		mockMvc.perform(get(ProductController.BASE_URL + "/" + "1")
+			.accept(MediaType.APPLICATION_JSON)
 			.contentType(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.id", equalTo(1)))
@@ -112,6 +114,7 @@ class ProductControllerTest
 
 		//when/then
 		mockMvc.perform(post(ProductController.BASE_URL + "/")
+			.accept(MediaType.APPLICATION_JSON)
 			.contentType(MediaType.APPLICATION_JSON)
 			.content(asJsonString(apples)))
 			.andExpect(status().isCreated())
@@ -135,6 +138,7 @@ class ProductControllerTest
 
 		//when/then
 		mockMvc.perform(put(ProductController.BASE_URL + "/" + "1")
+			.accept(MediaType.APPLICATION_JSON)
 			.contentType(MediaType.APPLICATION_JSON)
 			.content(asJsonString(apples)))
 			.andExpect(status().isCreated())
@@ -158,6 +162,7 @@ class ProductControllerTest
 
 		//when/then
 		mockMvc.perform(patch(ProductController.BASE_URL + "/" + "1")
+			.accept(MediaType.APPLICATION_JSON)
 			.contentType(MediaType.APPLICATION_JSON)
 			.content(asJsonString(apples)))
 			.andExpect(status().isOk())
@@ -169,6 +174,7 @@ class ProductControllerTest
 	public void testDeleteProduct() throws Exception
 	{
 		mockMvc.perform(delete(ProductController.BASE_URL + "/" + "1")
+			.accept(MediaType.APPLICATION_JSON)
 			.contentType(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk());
 
@@ -181,6 +187,7 @@ class ProductControllerTest
 		when(productService.getProductById(anyLong())).thenThrow(ResourceNotFoundException.class);
 
 		mockMvc.perform(get(ProductController.BASE_URL + "/222")
+			.accept(MediaType.APPLICATION_JSON)
 			.contentType(MediaType.APPLICATION_JSON))
 			.andExpect(status().isNotFound());
 	}
