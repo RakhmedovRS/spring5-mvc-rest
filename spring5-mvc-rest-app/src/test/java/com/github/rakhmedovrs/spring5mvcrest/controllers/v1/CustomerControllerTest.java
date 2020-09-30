@@ -1,6 +1,6 @@
 package com.github.rakhmedovrs.spring5mvcrest.controllers.v1;
 
-import com.github.rakhmedovrs.spring5mvcrest.api.v1.model.CustomerDTO;
+import com.github.rakhmedovrs.spring5mvcrest.model.CustomerDTO;
 import com.github.rakhmedovrs.spring5mvcrest.services.CustomerService;
 import com.github.rakhmedovrs.spring5mvcrest.services.ResourceNotFoundException;
 import org.junit.jupiter.api.BeforeEach;

@@ -12,10 +12,18 @@
 	<artifactId>spring5-mvc-rest-app</artifactId>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>com.github.rakhmedovrs</groupId>
+			<artifactId>spring5-mvc-rest-model</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>

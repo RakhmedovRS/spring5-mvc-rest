@@ -1,8 +1,8 @@
 package com.github.rakhmedovrs.spring5mvcrest.controllers.v1;
 
+import com.github.rakhmedovrs.spring5mvcrest.model.CustomerDTO;
+import com.github.rakhmedovrs.spring5mvcrest.model.CustomerListDTO;
 import com.github.rakhmedovrs.spring5mvcrest.services.CustomerService;
-import com.github.rakhmedovrs.spring5mvcrest.api.v1.model.CustomerDTO;
-import com.github.rakhmedovrs.spring5mvcrest.api.v1.model.CustomerListDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
@@ -40,7 +40,9 @@ public class CustomerController
 	@ResponseStatus(HttpStatus.OK)
 	public CustomerListDTO getAllCustomers()
 	{
-		return new CustomerListDTO(customerService.getAllCustomers());
+		CustomerListDTO customerListDTO = new CustomerListDTO();
+		customerListDTO.getCustomers().addAll(customerService.getAllCustomers());
+		return customerListDTO;
 	}
 
 	@ApiOperation(value = "Create new customer")

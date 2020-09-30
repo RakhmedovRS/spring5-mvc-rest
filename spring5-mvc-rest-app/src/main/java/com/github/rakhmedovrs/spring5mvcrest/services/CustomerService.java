@@ -1,6 +1,7 @@
 package com.github.rakhmedovrs.spring5mvcrest.services;
 
-import com.github.rakhmedovrs.spring5mvcrest.api.v1.model.CustomerDTO;
+
+import com.github.rakhmedovrs.spring5mvcrest.model.CustomerDTO;
 
 import java.util.List;
 

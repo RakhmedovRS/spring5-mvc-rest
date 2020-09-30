@@ -1,9 +1,9 @@
 package com.github.rakhmedovrs.spring5mvcrest.services;
 
 import com.github.rakhmedovrs.spring5mvcrest.api.v1.mapper.CustomerMapper;
-import com.github.rakhmedovrs.spring5mvcrest.api.v1.model.CustomerDTO;
 import com.github.rakhmedovrs.spring5mvcrest.bootstrap.Bootstrap;
 import com.github.rakhmedovrs.spring5mvcrest.domain.Customer;
+import com.github.rakhmedovrs.spring5mvcrest.model.CustomerDTO;
 import com.github.rakhmedovrs.spring5mvcrest.repositories.CategoryRepository;
 import com.github.rakhmedovrs.spring5mvcrest.repositories.CustomerRepository;
 import com.github.rakhmedovrs.spring5mvcrest.repositories.ProductRepository;
