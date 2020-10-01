@@ -18,7 +18,8 @@ import java.util.List;
 import static com.github.rakhmedovrs.spring5mvcrest.controllers.v1.AbstractRestControllerTest.asJsonString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -114,7 +115,7 @@ class CustomerControllerTest
 		returnDTO.setLastName(customer.getLastName());
 		returnDTO.setCustomerUrl(CustomerController.BASE_URL + "/" + "1");
 
-		when(customerService.createCustomer(customer)).thenReturn(returnDTO);
+		when(customerService.createCustomer(any())).thenReturn(returnDTO);
 
 		//when/then
 		mockMvc.perform(post(CustomerController.BASE_URL + "/")
